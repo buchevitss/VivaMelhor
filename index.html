@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        
+* {
+    box-sizing: boder-box;
+    padding: 0;
+    margin: 0;
+}
+
+    header, footer{
+    background-color: #85FFBD;
+    background-image: linear-gradient(45deg, #85FFBD 0%, #FFFB7D 82%);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: rgb(54, 54, 17);
+    justify-content: flex-end;
+
+    height: 100vh;
+    }
+    h1{
+       margin: auto;
+        margin-top: 15vh;
+        margin-bottom: 4vh;
+    }
+
+    html{
+    font-family: "Lexend Deca", Arial, Helvetica, sans-serif;
+    scroll-behavior: smooth;
+
+    }
+    container{
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 30% 70%;
+ 
+    }
+    .calculadora{
+        background: rgb(255, 255, 255);
+        padding: 10%;
+        align-items: center;
+        justify-content: space-between;
+
+    }
+    .habitos{
+        background: rgb(255, 255, 255);
+        padding: 10%;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    input[type="number"]{
+        height: 6vh;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.486);
+    width: 100%;
+    display: flex;
+   
+    }
+    input[type="checkbox"]{
+        height: 3vh;
+        width: 3vw;
+
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.486);
+    display: flex-start;
+
+    }
+
+    input[type="button"]{
+        height: 3vh;
+        width: 10vw;
+
+    border-radius: 5px;
+    background: rgba(180, 128, 128, 0.486);
+    margin-bottom: 20px;
+
+    }
+    /*teste letras*/
+    .text {
+  position: absolute;
+  width: 1000px;
+  left: 50%;
+  margin-left: -225px;
+  height: 40px;
+  top: 50%;
+  margin-top: -20px;
+}
+
+p {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+}
+
+.word {
+  position: absolute;
+  width: 500px;
+  opacity: 0;
+}
+
+.letter {
+  display: inline-block;
+  position: relative;
+  float: left;
+  transform: translateZ(25px);
+  transform-origin: 50% 50% 25px;
+}
+
+.letter.out {
+  transform: rotateX(90deg);
+  transition: transform 0.32s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+.letter.behind {
+  transform: rotateX(-90deg);
+}
+
+.letter.in {
+  transform: rotateX(0deg);
+  transition: transform 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.wisteria {
+  color: #8e44ad;
+}
+
+.belize {
+  color: #2980b9;
+}
+
+.pomegranate {
+  color: #c0392b;
+}
+
+.green {
+  color: #16a085;
+}
+
+.midnight {
+  color: #2c3e50;
+}
+
+    
+
+    </style>
+</head>
+<body>
+    <HEader>
+        <div class="text" style="font-weight: bold; font-size: 60px;" > 
+            <p>Viva</p>
+            <p>
+              <span class="word wisteria">a vida</span>
+              <span class="word belize">Melhor</span>
+              <span class="word pomegranate">Saudável</span>
+              <span class="word green">Noiada</span>
+              <span class="word midnight">Feliz</span>
+            </p>
+          </div>
+        <input type="button" value="Saiba Mais" onClick="document.getElementById('container').scrollIntoView();"/>
+    </HEader>
+    <container id="container">
+        <div class="calculadora">
+            <h2>Calcule seu IMC</h2>
+            <br>
+            <div class="altura">
+                <p>Altura (em centímetros)</p>
+            <input type="number" value="altura" id="altura">
+            </div>
+            <div class="peso">
+                <p>
+                    Peso (em Kilos)
+                </p>
+                <input type="number" value="peso" id="peso">
+            </div>
+            <button onclick="javascript:calcIMC()">Descobrir meu Imc</button>
+           
+        </div>
+        <div class="habitos">
+            <h2>Lista de Hábitos</h2>
+            <span class="1" style="display: flex; margin: 15px 5px 10px 5px;">          
+                <input type="checkbox"><p>Tenho uma Alimentação Saudável</p>
+                
+            </span>
+            <span class="1" style="display: flex; margin: 15px 5px 10px 5px;">          
+                <input type="checkbox"><p>Bebo pelo menos 2 litros de agua</p>
+            </span>
+            <span class="1" style="display: flex;margin: 15px 5px 10px 5px;">          
+                <input type="checkbox"><p>Durmo pelo menos 8 horas por noite</p>
+            </span>
+            <span class="1" style="display: flex;margin: 15px 5px 10px 5px;">          
+                <input type="checkbox"><p>Tenho momentos sociais</p>
+            </span>
+        </div>
+    </container>
+    
+    <script>
+
+
+
+var words = document.getElementsByClassName('word');
+var wordArray = [];
+var currentWord = 0;
+
+words[currentWord].style.opacity = 1;
+for (var i = 0; i < words.length; i++) {
+  splitLetters(words[i]);
+}
+
+function changeWord() {
+  var cw = wordArray[currentWord];
+  var nw = currentWord == words.length-1 ? wordArray[0] : wordArray[currentWord+1];
+  for (var i = 0; i < cw.length; i++) {
+    animateLetterOut(cw, i);
+  }
+  
+  for (var i = 0; i < nw.length; i++) {
+    nw[i].className = 'letter behind';
+    nw[0].parentElement.style.opacity = 1;
+    animateLetterIn(nw, i);
+  }
+  
+  currentWord = (currentWord == wordArray.length-1) ? 0 : currentWord+1;
+}
+
+function animateLetterOut(cw, i) {
+  setTimeout(function() {
+		cw[i].className = 'letter out';
+  }, i*80);
+}
+
+function animateLetterIn(nw, i) {
+  setTimeout(function() {
+		nw[i].className = 'letter in';
+  }, 340+(i*80));
+}
+
+function splitLetters(word) {
+  var content = word.innerHTML;
+  word.innerHTML = '';
+  var letters = [];
+  for (var i = 0; i < content.length; i++) {
+    var letter = document.createElement('span');
+    letter.className = 'letter';
+    letter.innerHTML = content.charAt(i);
+    word.appendChild(letter);
+    letters.push(letter);
+  }
+  
+  wordArray.push(letters);
+}
+
+changeWord();
+setInterval(changeWord, 4000);
+
+var peso1 = Int(document.getElementById(peso).value)
+var altura1 = Int(document.getElementById(peso).value)
+
+function calcIMC(){
+    var imc = (altura1 * altura1)/peso1
+    alert(imc)
+
+}
+
+    </script>
+</body>
+</html>
